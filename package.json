@@ -8,15 +8,9 @@
       "./playground"
     ],
     "scripts": {
-      "dev:memory": "yarn workspace @strapi-plugin-multitenancy/playground develop",
-      "lint": "lerna run lint --stream",
-      "test": "lerna run test --stream"
+      "dev": "yarn workspace playground develop"
     },
-    "repository": {
-      "type": "git",
-      "url": "git+https://github.com/patrixr/strapi-plugin-rest-cache.git"
-    },
-    "author": "Patrick R",
+    "author": "Strapi Community Org",
     "license": "MIT",
     "dependencies": {}
 }
