@@ -35,7 +35,7 @@ module.exports = async ({ strapi }) => {
         };
       }
       if (wrappedParams.data) {
-        delete wrappedParams.data.tenant_id;
+        wrappedParams.data.tenant_id = fullCTX.state.user.tenant_id;
       }
       return {
         ...wrappedParams,
