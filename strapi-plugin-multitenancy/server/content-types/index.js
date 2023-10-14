@@ -1,3 +1,7 @@
-'use strict';
+"use strict";
 
-module.exports = {};
+const tenant = require("./tenant");
+
+module.exports = {
+  tenant,
+};

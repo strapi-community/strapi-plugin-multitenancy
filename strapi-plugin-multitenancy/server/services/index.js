@@ -1,7 +1,8 @@
-'use strict';
+"use strict";
 
-const myService = require('./my-service');
-
+const selectTenant = require("./select-tenant");
+const myService = require("./my-service");
 module.exports = {
   myService,
+  selectTenant,
 };

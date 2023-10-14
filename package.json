@@ -9,7 +9,9 @@
     ],
     "scripts": {
       "dev": "yarn workspace playground develop",
-      "build": "yarn workspace playground build"
+      "build": "yarn workspace playground build",
+      "console": "yarn workspace playground strapi console",
+      "strapi": "yarn workspace playground strapi"
     },
     "author": "Strapi Community Org",
     "license": "MIT",
