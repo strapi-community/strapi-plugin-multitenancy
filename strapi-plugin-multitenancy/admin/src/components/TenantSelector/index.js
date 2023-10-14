@@ -25,8 +25,6 @@ const TenantSelector = () => {
   };
   return (
     <SingleSelect onClear={() => {}} value={value} onChange={onChange}>
-      <SingleSelectOption value="main">Main</SingleSelectOption>
-      {console.log(tenants)}
       {tenants.map((info) => (
         <SingleSelectOption value={info.name}>{info.name}</SingleSelectOption>
       ))}

@@ -14,13 +14,11 @@ module.exports = ({ strapi }) => ({
     if (tenant === "main") {
       tenant = null;
     }
-    console.log(user.id);
     const entry = await strapi.db.query("admin::user").update({
       where: { id: user.id },
       data: {
         tenant_id: tenant,
       },
     });
-    console.log(entry);
   },
 });

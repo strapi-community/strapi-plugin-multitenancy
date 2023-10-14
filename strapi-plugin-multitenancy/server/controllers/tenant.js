@@ -23,7 +23,7 @@ module.exports = ({ strapi }) => ({
     const tenant = strapi
       .service("plugin::multitenancy.selectTenant")
       .get(ctx.state.user);
-    console.log(tenant);
+
     return { tenant: tenant };
   },
   async me(ctx) {
@@ -34,7 +34,15 @@ module.exports = ({ strapi }) => ({
         admin_users: { id: ctx.state.user.id },
       },
     });
+    const output = await contentAPI.output(
+      entities,
+      contentType,
+      ctx.state.auth
+    );
+    if (ctx.state.user.roles.findIndex((role) => role.id === 1) !== -1) {
+      output.push({ name: "main" });
+    }
 
-    return await contentAPI.output(entities, contentType, ctx.state.auth);
+    return output;
   },
 });
