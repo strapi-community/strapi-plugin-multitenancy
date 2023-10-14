@@ -17,7 +17,6 @@ export default {
     });
 
     //TODO Figure out how to chance this depending on config value.
-    //console.log(app);
 
     app.addMenuLink({
       to: `/plugins/${pluginId}/empty`,
