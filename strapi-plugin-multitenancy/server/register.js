@@ -23,17 +23,30 @@ module.exports = ({ strapi }) => {
       type: "string",
     };
   }
-  const indexID = strapi.admin.routes.admin.routes.findIndex(
+  const indexPostApiToken = strapi.admin.routes.admin.routes.findIndex(
     (route) =>
       // You can modify this to search for a specific route or multiple
       route.method === "POST" &&
       //below replace removes the + at the end of the line
       route.path === "/api-tokens"
   );
-  if (indexID > -1) {
+  if (indexPostApiToken > -1) {
     injectMiddleware(
-      strapi.admin.routes.admin.routes[indexID],
+      strapi.admin.routes.admin.routes[indexPostApiToken],
       "plugin::multitenancy.injectTenantId"
+    );
+  }
+  const indexGetApiToken = strapi.admin.routes.admin.routes.findIndex(
+    (route) =>
+      // You can modify this to search for a specific route or multiple
+      route.method === "GET" &&
+      //below replace removes the + at the end of the line
+      route.path === "/api-tokens"
+  );
+  if (indexGetApiToken > -1) {
+    injectMiddleware(
+      strapi.admin.routes.admin.routes[indexGetApiToken],
+      "plugin::multitenancy.redoListApiToken"
     );
   }
 };
