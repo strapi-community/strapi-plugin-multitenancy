@@ -28,13 +28,12 @@ module.exports = async ({ strapi }) => {
       const wrappedParams = await defaultService.wrapParams(opts, ctx);
       const fullCTX = strapi.requestContext.get();
       let customFilter = {};
-      if ((fullCTX.state.auth.name = "admin")) {
-        //transformParamsToQuery
+      if (fullCTX.state?.auth?.name === ("admin" || "users-permissions")) {
         customFilter = {
-          tenant_id: fullCTX.state.user.tenant_id,
+          tenant_id: fullCTX.state?.user?.tenant_id,
         };
       }
-      if (wrappedParams.data) {
+      if (wrappedParams.data && fullCTX.state?.user?.tenant_id) {
         wrappedParams.data.tenant_id = fullCTX.state.user.tenant_id;
       }
       return {
