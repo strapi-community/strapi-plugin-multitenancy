@@ -1,3 +1,7 @@
-'use strict';
+"use strict";
 
-module.exports = {};
+const isSameTenant = require("./is-same-tenant");
+
+module.exports = {
+  isSameTenant,
+};

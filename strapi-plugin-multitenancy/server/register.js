@@ -10,6 +10,16 @@ function injectMiddleware(route, pluginUUid) {
     route.config.middlewares.push(pluginUUid);
   }
 }
+function injectPolicy(route, pluginUUid) {
+  if (typeof route.config === "undefined") {
+    route.config = {};
+  }
+  if (typeof route.config.middlewares === "undefined") {
+    route.config.policies = [pluginUUid];
+  } else {
+    route.config.policies.push(pluginUUid);
+  }
+}
 
 module.exports = ({ strapi }) => {
   for (const indexedCT of Object.values(strapi.contentTypes)) {
@@ -23,6 +33,37 @@ module.exports = ({ strapi }) => {
       type: "string",
     };
   }
+  const methods = ["DELETE", "GET", "PUT"];
+  for (method of methods) {
+    const indexMethodApiToken = strapi.admin.routes.admin.routes.findIndex(
+      (route) =>
+        // You can modify this to search for a specific route or multiple
+        route.method === method &&
+        //below replace removes the + at the end of the line
+        route.path === "/api-tokens/:id"
+    );
+    if (indexMethodApiToken > -1) {
+      injectPolicy(
+        strapi.admin.routes.admin.routes[indexMethodApiToken],
+        "plugin::multitenancy.isSameTenant"
+      );
+    }
+  }
+  const indexPostApiTokenRegenerate =
+    strapi.admin.routes.admin.routes.findIndex(
+      (route) =>
+        // You can modify this to search for a specific route or multiple
+        route.method === "POST" &&
+        //below replace removes the + at the end of the line
+        route.path === "/api-tokens/:id/regenerate"
+    );
+  if (indexPostApiTokenRegenerate > -1) {
+    injectPolicy(
+      strapi.admin.routes.admin.routes[indexPostApiTokenRegenerate],
+      "plugin::multitenancy.isSameTenant"
+    );
+  }
+
   const indexPostApiToken = strapi.admin.routes.admin.routes.findIndex(
     (route) =>
       // You can modify this to search for a specific route or multiple
@@ -31,9 +72,9 @@ module.exports = ({ strapi }) => {
       route.path === "/api-tokens"
   );
   if (indexPostApiToken > -1) {
-    injectMiddleware(
+    injectPolicy(
       strapi.admin.routes.admin.routes[indexPostApiToken],
-      "plugin::multitenancy.injectTenantId"
+      "plugin::multitenancy.isSameTenant"
     );
   }
 
