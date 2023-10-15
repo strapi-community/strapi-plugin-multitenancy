@@ -34,7 +34,7 @@ module.exports = ({ strapi }) => {
     };
   }
   const methods = ["DELETE", "GET", "PUT"];
-  for (method of methods) {
+  for (const method of methods) {
     const indexMethodApiToken = strapi.admin.routes.admin.routes.findIndex(
       (route) =>
         // You can modify this to search for a specific route or multiple
