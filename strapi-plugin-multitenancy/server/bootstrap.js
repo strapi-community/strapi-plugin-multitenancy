@@ -28,7 +28,9 @@ module.exports = async ({ strapi }) => {
       const wrappedParams = await defaultService.wrapParams(opts, ctx);
       const fullCTX = strapi.requestContext.get();
       let customFilter = {};
-      if (fullCTX.state?.auth?.name === ("admin" || "users-permissions")) {
+      if (
+        fullCTX.state?.auth?.strategy?.name === ("admin" || "users-permissions")
+      ) {
         customFilter = {
           tenant_id: fullCTX.state?.user?.tenant_id,
         };
