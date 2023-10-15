@@ -30,13 +30,22 @@ module.exports = async ({ strapi }) => {
         wrappedParams.filters = {};
       }
       const fullCTX = strapi.requestContext.get();
-      let customFilter = {};
+      console.log(fullCTX.state.auth.credentials);
+      let customFilter;
+      console.log(fullCTX.state?.auth?.strategy);
       if (
-        fullCTX.state?.auth?.strategy?.name === "admin" ||
-        fullCTX.state?.auth?.strategy?.name === "users-permissions"
+        fullCTX.state?.auth?.strategy === "api-token" &&
+        fullCTX.state?.auth?.credentials?.tenant_id === undefined
       ) {
+        const token = await strapi.query("admin::api-token").findOne({
+          select: ["tenant_id"],
+          where: { id: ullCTX.state.auth.credentials.id },
+        });
+        fullCTX.state.auth.credentials.tenant_id = token.tenant_id;
+      }
+      if (fullCTX.state?.auth?.credentials?.tenant_id !== undefined) {
         customFilter = {
-          tenant_id: fullCTX.state?.user?.tenant_id,
+          tenant_id: fullCTX.state.auth.credentials.tenant_id,
         };
       }
       if (wrappedParams.data && fullCTX.state?.user?.tenant_id) {

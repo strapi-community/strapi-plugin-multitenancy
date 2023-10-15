@@ -1,3 +1,6 @@
-'use strict';
+"use strict";
 
-module.exports = {};
+const injectTenantId = require("./inject_tenant_id");
+module.exports = {
+  injectTenantId,
+};
