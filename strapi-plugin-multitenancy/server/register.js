@@ -36,17 +36,41 @@ module.exports = ({ strapi }) => {
       "plugin::multitenancy.injectTenantId"
     );
   }
-  const indexGetApiToken = strapi.admin.routes.admin.routes.findIndex(
-    (route) =>
-      // You can modify this to search for a specific route or multiple
-      route.method === "GET" &&
-      //below replace removes the + at the end of the line
-      route.path === "/api-tokens"
-  );
-  if (indexGetApiToken > -1) {
-    injectMiddleware(
-      strapi.admin.routes.admin.routes[indexGetApiToken],
-      "plugin::multitenancy.redoListApiToken"
-    );
-  }
+
+  const SELECT_FIELDS = [
+    "id",
+    "name",
+    "description",
+    "lastUsedAt",
+    "type",
+    "lifespan",
+    "expiresAt",
+    "createdAt",
+    "updatedAt",
+  ];
+
+  /** @constant {Array<string>} */
+  const POPULATE_FIELDS = ["permissions"];
+
+  const flattenTokenPermissions = (token) => {
+    if (!token) return token;
+    return {
+      ...token,
+      permissions: Array.isArray(token.permissions)
+        ? token.permissions.map((permission) => permission.action)
+        : token.permissions,
+    };
+  };
+  strapi.admin.services["api-token"].list = async () => {
+    const ctx = strapi.requestContext.get();
+    const tokens = await strapi.query("admin::api-token").findMany({
+      select: SELECT_FIELDS,
+      populate: POPULATE_FIELDS,
+      orderBy: { name: "ASC" },
+      where: { tenant_id: ctx.state.auth.credentials.tenant_id },
+    });
+
+    if (!tokens) return tokens;
+    return tokens.map((token) => flattenTokenPermissions(token));
+  };
 };
