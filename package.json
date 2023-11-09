@@ -1,19 +1,20 @@
 {
-    "name": "@strapi-plugin-multitenancy/monorepo",
-    "private": true,
-    "version": "1.0.0",
-    "description": "Speed-up HTTP requests with LRU cache",
-    "workspaces": [
-      "./strapi-plugin-multitenancy",
-      "./playground"
-    ],
-    "scripts": {
-      "dev": "yarn workspace playground develop",
-      "build": "yarn workspace playground build",
-      "console": "yarn workspace playground strapi console",
-      "strapi": "yarn workspace playground strapi"
-    },
-    "author": "Strapi Community Org",
-    "license": "MIT",
-    "dependencies": {}
+  "name": "@strapi-plugin-multitenancy/monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Speed-up HTTP requests with LRU cache",
+  "workspaces": [
+    "./strapi-plugin-multitenancy",
+    "./playground"
+  ],
+  "scripts": {
+    "dev": "yarn workspace playground develop",
+    "develop": "yarn workspace playground develop",
+    "build": "yarn workspace playground build",
+    "console": "yarn workspace playground strapi console",
+    "strapi": "yarn workspace playground strapi"
+  },
+  "author": "Strapi Community Org",
+  "license": "MIT",
+  "dependencies": {}
 }

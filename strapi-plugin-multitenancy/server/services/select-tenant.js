@@ -1,7 +1,5 @@
 "use strict";
 
-const { ThemeConsumer } = require("styled-components");
-
 module.exports = ({ strapi }) => ({
   get(user) {
     if (user.tenant_id === null) {

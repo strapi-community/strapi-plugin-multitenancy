@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_test_tests",
+  "info": {
+    "displayName": "test",
+    "icon": "alien"
+  },
+  "options": {},
+  "attributes": {
+    "text": {
+      "type": "string"
+    }
+  }
+}

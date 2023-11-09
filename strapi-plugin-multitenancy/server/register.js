@@ -33,14 +33,67 @@ module.exports = ({ strapi }) => {
       type: "string",
     };
   }
-  const methods = ["DELETE", "GET", "PUT"];
+
+  const indexMe = strapi.admin.routes.admin.routes.findIndex(
+    (route) =>
+      // You can modify this to search for a specific route or multiple
+      route.method === "GET" &&
+      //below replace removes the + at the end of the line
+      route.path === "/users/me"
+  );
+  if (indexMe !== -1) {
+    strapi.admin.routes.admin.routes[indexMe].config.bypassTenant = true;
+  }
+  const indexMePerm = strapi.admin.routes.admin.routes.findIndex(
+    (route) =>
+      // You can modify this to search for a specific route or multiple
+      route.method === "GET" &&
+      //below replace removes the + at the end of the line
+      route.path === "/users/me/permissions"
+  );
+  if (indexMePerm !== -1) {
+    strapi.admin.routes.admin.routes[indexMePerm].config.bypassTenant = true;
+  }
+  const indexInfo = strapi.admin.routes.admin.routes.findIndex(
+    (route) =>
+      // You can modify this to search for a specific route or multiple
+      route.method === "GET" &&
+      //below replace removes the + at the end of the line
+      route.path === "/information"
+  );
+  if (indexInfo !== -1) {
+    strapi.admin.routes.admin.routes[indexInfo].config.bypassTenant = true;
+  }
+
+  const indexInit = strapi.admin.routes.admin.routes.findIndex(
+    (route) =>
+      // You can modify this to search for a specific route or multiple
+      route.method === "GET" &&
+      //below replace removes the + at the end of the line
+      route.path === "/init"
+  );
+  if (indexInit !== -1) {
+    strapi.admin.routes.admin.routes[indexInit].config.bypassTenant = true;
+  }
+
+  const indexLocales = strapi.admin.routes.admin.routes.findIndex(
+    (route) =>
+      // You can modify this to search for a specific route or multiple
+      route.method === "GET" &&
+      //below replace removes the + at the end of the line
+      route.path === "/i18n/locales"
+  );
+  if (indexLocales !== -1) {
+    strapi.admin.routes.admin.routes[indexLocales].config.bypassTenant = true;
+  }
+  /*const methods = ["DELETE", "GET", "PUT"];
   for (const method of methods) {
     const indexMethodApiToken = strapi.admin.routes.admin.routes.findIndex(
       (route) =>
         // You can modify this to search for a specific route or multiple
         route.method === method &&
         //below replace removes the + at the end of the line
-        route.path === "/api-tokens/:id"
+        route.path === "/admin/login"
     );
     if (indexMethodApiToken > -1) {
       injectPolicy(
@@ -90,7 +143,6 @@ module.exports = ({ strapi }) => {
     "updatedAt",
   ];
 
-  /** @constant {Array<string>} */
   const POPULATE_FIELDS = ["permissions"];
 
   const flattenTokenPermissions = (token) => {
@@ -113,5 +165,5 @@ module.exports = ({ strapi }) => {
 
     if (!tokens) return tokens;
     return tokens.map((token) => flattenTokenPermissions(token));
-  };
+  };*/
 };

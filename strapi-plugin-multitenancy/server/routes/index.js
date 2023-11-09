@@ -4,6 +4,7 @@ module.exports = [
     path: "/tenants/me",
     handler: "tenant.me",
     config: {
+      bypassTenant: true,
       policies: [
         {
           name: "admin::hasPermissions",
@@ -30,6 +31,7 @@ module.exports = [
     path: "/current-tenant",
     handler: "tenant.change",
     config: {
+      bypassTenant: true,
       policies: [
         {
           name: "admin::hasPermissions",
